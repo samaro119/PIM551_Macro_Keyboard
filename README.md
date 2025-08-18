@@ -11,7 +11,7 @@ Setup instructions:
 
 
 Examples:
-This macropad comes loaded with 12 different presets for different applications suited to my use. Feel free to customise this to better suit your usage!
+- This macropad comes loaded with 12 different presets for different applications suited to my use. Feel free to customise this to better suit your usage!
 
 Full preset containing email macro shortcuts, spotify controls, advanced copy paste options and more
 
