@@ -26,17 +26,22 @@ consumer_control = ConsumerControl(usb_hid.devices)
 
 # Note that key 0 is reserved as the modifier
 
+
+layer_0 =     {1: "a", 2: "a", 3: "",
+               4: "a", 5: "a", 6: "a", 7: "a",
+               8: "a", 9: "a", 10: "a", 11: "a",
+               12: "a", 13: "a", 14: "a", 15: "a"}
+
 # purple - numeric keypad
 layer_1 =     {7: Keycode.SEVEN, 11: Keycode.EIGHT, 15: Keycode.NINE,
                6: Keycode.FOUR, 10: Keycode.FIVE, 14: Keycode.SIX,
                13: Keycode.THREE, 9: Keycode.TWO, 5: Keycode.ONE,
                4: Keycode.ZERO, 8: Keycode.DELETE, 12: Keycode.ENTER}
 
-# violet- function keys
-layer_2 =     {7: Keycode.F1, 11: Keycode.F2, 15: Keycode.F3,
-               6: Keycode.F4, 10: Keycode.F5, 14: Keycode.F6,
-               5: Keycode.F7, 9: Keycode.F8, 13: Keycode.F9,
-               4: Keycode.F10, 8: Keycode.F11, 12: Keycode.F12,
+# violet- gaming keys
+layer_2 =     {7: ConsumerControlCode.SCAN_PREVIOUS_TRACK, 11: ConsumerControlCode.PLAY_PAUSE, 15: ConsumerControlCode.SCAN_NEXT_TRACK,
+               14: [Keycode.ENTER, Keycode.TAB, "gg", Keycode.ENTER, Keycode.ENTER, Keycode.TAB, Keycode.ENTER],
+               13: [Keycode.ENTER, "GG, W heals <3", Keycode.ENTER],
                # Yellow left hand side keys
                1: Keycode.F13, 2: Keycode.F14, 3: Keycode.F15}
 
@@ -48,7 +53,8 @@ layer_3 =     {6: ConsumerControlCode.VOLUME_DECREMENT, 10: ConsumerControlCode.
 layer_4 =     {4: "JmMlSt@0)0!2@0", 5: ["sam", Keycode.TAB, "Sam123", Keycode.TAB, "5536"],
                9: "Hope this helps!", 13: "Let me know if you need anything else!",
                6: "Thanks for your patience.", 10: "Thank you for your understanding.", 14: "Thanks for your help!",
-               8: "sku ", 12: "c ",
+               8: ["/catalog/product/view/sku/", (Keycode.LEFT_CONTROL, Keycode.V)],
+               12: "2025",
                3: ["shortcuts for web search...", Keycode.ENTER,
                "c : Core Electronics website search", Keycode.ENTER,
                "sku : Core Electronics SKU search", Keycode.ENTER,
@@ -93,20 +99,20 @@ layer_11 =     {6: 'print("Flag_01") ', 10: 'print("Flag_02") ',  14: 'print("Fl
                5: 'print("Flag_04") ', 9: 'print("Flag_05") ', 13: 'print("Flag_06") ',
                4: 'print("Flag_07") ', 8: 'print("Flag_08") ', 12: 'print("Flag_09") '}
 
-layers =      {3: layer_1, 2: layer_2,
+layers =      {3: layer_1, 2: layer_2, 1: layer_0,
                7: layer_3,
                11: layer_4, 10: layer_4,
                15: layer_6, 14: layer_6, 13: layer_6,
                4: layer_9, 8: layer_10, 12: layer_11}
 
-selectors =   {3: keys[3], 2: keys[2],
+selectors =   {3: keys[3], 2: keys[2], 1: keys[1],
                7: keys[7],
                11: keys[11], 10: keys[10],
                15: keys[15], 14: keys[14], 13: keys[13],
                4: keys[4], 8: keys[8], 12: keys[12]}
 
 # The colours for each layer
-colours = {3: (255, 0, 255), 2: (50, 0, 100),
+colours = {3: (255, 0, 255), 2: (50, 0, 100), 1: (40, 145, 145),
            7: (0, 255, 0),
            11: (0, 80, 80), 10: (0, 0, 255),
            15: (50, 128, 50), 14: (128, 50, 50), 13: (50, 50, 128),
@@ -115,7 +121,7 @@ colours = {3: (255, 0, 255), 2: (50, 0, 100),
 # Define the modifier key and layer selector keys
 modifier = keys[0]
 # Define the start layer
-current_layer = 13
+current_layer = 10
 
 # Variables used to store state information of the program
 layer_keys = range(0, 16)
@@ -146,11 +152,15 @@ def setLayerColours():
             keys[key].set_led(128, 50, 50)
         for key in [8, 12]:
             keys[key].set_led(50, 50, 128)
+        for key in [12]:
+            keys[key].set_led(200, 10, 10)
         for key in [1, 2, 3]:
             keys[key].set_led(255, 69, 10)
     elif current_layer ==  2:
         for key in [1, 2, 3]:
             keys[key].set_led(55, 55, 0)
+        for key in [7, 11, 15]:
+            keys[key].set_led(0, 255, 80)
 
 # Update cycling colour special key
 def cycle_modifier_key_colour(rgb, colour_changes, colour_stage, keys, current_layer):
@@ -190,10 +200,12 @@ def pressButton(key_press):
     else:
         print("Unrecognized key press type:", type(key_press))
 
+press_counter = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+
 while True:
     # Always remember to call keybow.update()
     keybow.update()
-
+    #print(press_counter)
     # if no key is pressed ensure not locked in layer change mode
     if ((mode == 2) & keybow.none_pressed()):
         mode = 0
@@ -219,20 +231,29 @@ while True:
                     # Set the LEDs for each key in the current layer
                     setLayerColours()
                 fired = True
+    elif current_layer == 1:
+        for k in range(1, 16):
+            if press_counter[k-1] % 2:
+                keys[k].set_led(40, 145, 145)
+            else:
+                keys[k].set_led(10, 10, 10)
+            # set to look for a key presses
+        if mode == 0:
+            mode = 1
     else:
-        # Update cycling colour keys
-        colour_stage = cycle_modifier_key_colour(rgb, colour_changes, colour_stage, keys, current_layer)
-
         # set to look for a key presses
         if mode == 0:
             mode = 1
             # Set the LEDs for each key in the current layer
             setLayerColours()
+    # Update cycling colour keys
+    colour_stage = cycle_modifier_key_colour(rgb, colour_changes, colour_stage, keys, current_layer)
 
     # Loop through all of the keys in the layer and if they're pressed, get the
     # key code from the layer's key map
     for k in layers[current_layer].keys():
         if keys[k].pressed:
+            print(f"pressed: {k}")
             key_press = layers[current_layer][k]
             # If the key hasn't just fired (prevents refiring)
             if not fired:
@@ -242,6 +263,9 @@ while True:
                     for i in key_press:
                         pressButton(i)
                         time.sleep(0.1)
+                elif current_layer == 1:
+                    press_counter[k-1] += 1
+                    print("iterate")
                 else:
                     # Send key code
                     pressButton(key_press)
