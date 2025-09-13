@@ -1,4 +1,4 @@
-# Custom Macro Keyboard
+# PIM551 Custom Macro Keyboard
 Parts list:
 - Pimoroni Pico RGB Keypad Base (https://core-electronics.com.au/pimoroni-pico-rgb-keypad-base.html)
 - Raspberry Pi Pico H (https://core-electronics.com.au/raspberry-pi-pico-h-with-headers.html)
