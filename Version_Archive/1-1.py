@@ -45,7 +45,7 @@ layer_3 =     {6: ConsumerControlCode.VOLUME_DECREMENT, 10: ConsumerControlCode.
                4: ConsumerControlCode.SCAN_PREVIOUS_TRACK, 8: ConsumerControlCode.PLAY_PAUSE, 12: ConsumerControlCode.SCAN_NEXT_TRACK}
 
 # blue - Work
-layer_4 =     {4: "JmMlSt@0)0!2@0", 5: ["sam", Keycode.TAB, "Sam123", Keycode.TAB, "5536"],
+layer_4 =     {4: "Placeholder", 5: "wow",
                9: "Hope this helps!", 13: "Let me know if you need anything else!",
                6: "Thanks for your patience.", 10: "Thank you for your understanding.", 14: "Thanks for your help!",
                8: ["Hi CONTACT,", Keycode.ENTER, Keycode.ENTER,
