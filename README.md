@@ -15,12 +15,12 @@ Examples:
 
 Full preset containing email macro shortcuts, spotify controls, advanced copy paste options and more
 
-![Full preset containing email macro shortcuts, spotify controls, advanced copy paste options and more macro pad image](images/pad1.jpg | width=100)
+<img src="images/pad1.jpg" width="500">
 
 Generic shortcut preset
 
-![Generic shortcut preset macro pad image](images/pad3.jpg | width=100)
+<img src="images/pad3.jpg" width="500">
 
 Number pad addition for under 100% keyboards
 
-![Number pad addition for under 100% keyboards macro pad image](images/pad4.jpg | width=100)
+<img src="images/pad4.jpg" width="500">
